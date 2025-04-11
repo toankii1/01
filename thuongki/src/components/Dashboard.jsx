@@ -38,6 +38,11 @@ const [overview, setOverview] = useState({
   }, []);
 
   const [users, setUsers] = useState([]);
+
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -51,6 +56,23 @@ const [overview, setOverview] = useState({
   
     fetchUsers();
   }, []);
+  
+  const handleEditClick = async (userId) => {
+    try {
+      const res = await fetch(`http://localhost:3001/users/${userId}`);
+  
+      if (!res.ok) {
+        throw new Error(`User not found (id: ${userId})`);
+      }
+  
+      const data = await res.json();
+      setSelectedUser(data);
+      setIsModalOpen(true);
+    } catch (err) {
+      console.error("Error fetching user", err);
+    }
+  };
+  
   
 
   return (
@@ -170,15 +192,65 @@ const [overview, setOverview] = useState({
                     </span>
                   </td>
                   <td>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">
-                      Edit
-                    </button>
+                  <button
+                    onClick={() => handleEditClick(user.id)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded"
+                  >
+                    Edit
+                  </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        {isModalOpen && selectedUser && (
+  <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+      <h2 className="text-lg font-semibold mb-4">Edit User</h2>
+      <div className="space-y-3">
+        <div>
+          <label className="block text-sm font-medium">Name</label>
+          <input
+            type="text"
+            value={selectedUser.name}
+            readOnly
+            className="w-full px-3 py-2 border rounded-md bg-gray-100"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Company</label>
+          <input
+            type="text"
+            value={selectedUser.company}
+            readOnly
+            className="w-full px-3 py-2 border rounded-md bg-gray-100"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Status</label>
+          <input
+            type="text"
+            value={selectedUser.status}
+            readOnly
+            className="w-full px-3 py-2 border rounded-md bg-gray-100"
+          />
+        </div>
+      </div>
+      <div className="flex justify-end mt-6">
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
         </main>
       </div>
     );
