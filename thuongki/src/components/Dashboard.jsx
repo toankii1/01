@@ -71,55 +71,64 @@ export default function Dashboard() {
           </div>
   
           {/* Detailed Report Table */}
-          <div className="bg-white p-6 rounded-lg shadow">
+                    <div className="bg-white p-6 rounded-lg shadow">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Detailed report</h3>
-              <div className="space-x-2">
+                <h3 className="text-lg font-semibold">Detailed report</h3>
+                <div className="space-x-2">
                 <button className="border px-3 py-1 rounded-md text-sm">save</button>
-              </div>
+                <button className="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-md text-sm font-medium">
+                    + Add User
+                </button>
+                </div>
             </div>
             <table className="w-full text-sm text-left">
-              <thead>
+                <thead>
                 <tr className="text-gray-500 border-b">
-                  <th className="py-2">Customer Name</th>
-                  <th>Company</th>
-                  <th>Order Value</th>
-                  <th>Order Date</th>
-                  <th>Status</th>
+                    <th className="py-2">Customer Name</th>
+                    <th>Company</th>
+                    <th>Order Value</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Actions</th> {/* Cột nút Edit */}
                 </tr>
-              </thead>
-              <tbody>
+                </thead>
+                <tbody>
                 {[
-                  ["Elizabeth Lee", "AvatarSystems", "$359", "10/07/2023", "New"],
-                  ["Carlos Garcia", "SmoozeShift", "$747", "24/07/2023", "New"],
-                  ["Elizabeth Bailey", "Prime Time", "$564", "08/08/2023", "In-progress"],
-                  ["Ryan Brown", "OmniTech", "$541", "31/08/2023", "In-progress"],
-                  ["Ryan Young", "DataStream", "$769", "01/05/2023", "Completed"],
-                  ["Hailey Adams", "FlowRush", "$922", "10/06/2023", "Completed"],
+                    ["Elizabeth Lee", "AvatarSystems", "$359", "10/07/2023", "New"],
+                    ["Carlos Garcia", "SmoozeShift", "$747", "24/07/2023", "New"],
+                    ["Elizabeth Bailey", "Prime Time", "$564", "08/08/2023", "In-progress"],
+                    ["Ryan Brown", "OmniTech", "$541", "31/08/2023", "In-progress"],
+                    ["Ryan Young", "DataStream", "$769", "01/05/2023", "Completed"],
+                    ["Hailey Adams", "FlowRush", "$922", "10/06/2023", "Completed"],
                 ].map(([name, company, value, date, status]) => (
-                  <tr key={name} className="border-t hover:bg-gray-50">
+                    <tr key={name} className="border-t hover:bg-gray-50">
                     <td className="py-2">{name}</td>
                     <td>{company}</td>
                     <td>{value}</td>
                     <td>{date}</td>
                     <td>
-                      <span
+                        <span
                         className={`px-2 py-1 text-xs rounded-full ${
-                          status === "New"
+                            status === "New"
                             ? "bg-blue-100 text-blue-600"
                             : status === "In-progress"
                             ? "bg-yellow-100 text-yellow-700"
                             : "bg-green-100 text-green-700"
                         }`}
-                      >
+                        >
                         {status}
-                      </span>
+                        </span>
                     </td>
-                  </tr>
+                    <td>
+                        <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">
+                        Edit
+                        </button>
+                    </td>
+                    </tr>
                 ))}
-              </tbody>
+                </tbody>
             </table>
-          </div>
+            </div>
         </main>
       </div>
     );
