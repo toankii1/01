@@ -37,6 +37,22 @@ const [overview, setOverview] = useState({
     fetchData();
   }, []);
 
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/users");
+        const data = await res.json();
+        setUsers(data);
+      } catch (err) {
+        console.error("Failed to fetch users", err);
+      }
+    };
+  
+    fetchUsers();
+  }, []);
+  
+
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-800">
       {/* Sidebar */}
@@ -120,64 +136,49 @@ const [overview, setOverview] = useState({
 </div>
   
           {/* Detailed Report Table */}
-                    <div className="bg-white p-6 rounded-lg shadow">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">Detailed report</h3>
-                <div className="space-x-2">
-                <button className="border px-3 py-1 rounded-md text-sm">save</button>
-                <button className="bg-pink-500 hover:bg-pink-600 text-white px-3 py-1 rounded-md text-sm font-medium">
-                    + Add User
-                </button>
-                </div>
-            </div>
-            <table className="w-full text-sm text-left">
-                <thead>
-                <tr className="text-gray-500 border-b">
-                    <th className="py-2">Customer Name</th>
-                    <th>Company</th>
-                    <th>Order Value</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Actions</th> {/* Cột nút Edit */}
+          <div className="bg-white p-6 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Detailed Report</h3>
+          <table className="w-full text-sm text-left">
+            <thead>
+              <tr className="text-gray-500 border-b">
+                <th className="py-2">Customer Name</th>
+                <th>Company</th>
+                <th>Order Value</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user.id} className="border-t hover:bg-gray-50">
+                  <td className="py-2">{user.name}</td>
+                  <td>{user.company}</td>
+                  <td>{user.orderValue}</td>
+                  <td>{user.orderDate}</td>
+                  <td>
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full ${
+                        user.status === "New"
+                          ? "bg-blue-100 text-blue-600"
+                          : user.status === "In-progress"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-green-100 text-green-700"
+                      }`}
+                    >
+                      {user.status}
+                    </span>
+                  </td>
+                  <td>
+                    <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">
+                      Edit
+                    </button>
+                  </td>
                 </tr>
-                </thead>
-                <tbody>
-                {[
-                    ["Elizabeth Lee", "AvatarSystems", "$359", "10/07/2023", "New"],
-                    ["Carlos Garcia", "SmoozeShift", "$747", "24/07/2023", "New"],
-                    ["Elizabeth Bailey", "Prime Time", "$564", "08/08/2023", "In-progress"],
-                    ["Ryan Brown", "OmniTech", "$541", "31/08/2023", "In-progress"],
-                    ["Ryan Young", "DataStream", "$769", "01/05/2023", "Completed"],
-                    ["Hailey Adams", "FlowRush", "$922", "10/06/2023", "Completed"],
-                ].map(([name, company, value, date, status]) => (
-                    <tr key={name} className="border-t hover:bg-gray-50">
-                    <td className="py-2">{name}</td>
-                    <td>{company}</td>
-                    <td>{value}</td>
-                    <td>{date}</td>
-                    <td>
-                        <span
-                        className={`px-2 py-1 text-xs rounded-full ${
-                            status === "New"
-                            ? "bg-blue-100 text-blue-600"
-                            : status === "In-progress"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-green-100 text-green-700"
-                        }`}
-                        >
-                        {status}
-                        </span>
-                    </td>
-                    <td>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">
-                        Edit
-                        </button>
-                    </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
         </main>
       </div>
     );
