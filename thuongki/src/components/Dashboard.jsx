@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export default function Dashboard() {
 
-const [overview, setOverview] = useState({
+  const [overview, setOverview] = useState({
     turnover: null,
     profit: null,
     customers: null,
@@ -25,10 +25,10 @@ const [overview, setOverview] = useState({
         ]);
 
         setOverview({
-           turnover: turnover[0],
-           profit: profit[0],
-           customers: customers[0],
-          });
+          turnover: turnover[0],
+          profit: profit[0],
+          customers: customers[0],
+        });
       } catch (err) {
         console.error("API error:", err);
       }
@@ -38,6 +38,11 @@ const [overview, setOverview] = useState({
   }, []);
 
   const [users, setUsers] = useState([]);
+
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -48,10 +53,27 @@ const [overview, setOverview] = useState({
         console.error("Failed to fetch users", err);
       }
     };
-  
+
     fetchUsers();
   }, []);
-  
+
+  const handleEditClick = async (userId) => {
+    try {
+      const res = await fetch(`http://localhost:3001/users/${userId}`);
+
+      if (!res.ok) {
+        throw new Error(`User not found (id: ${userId})`);
+      }
+
+      const data = await res.json();
+      setSelectedUser(data);
+      setIsModalOpen(true);
+    } catch (err) {
+      console.error("Error fetching user", err);
+    }
+  };
+
+
 
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-800">
@@ -108,7 +130,7 @@ const [overview, setOverview] = useState({
           <div className="bg-white p-5 rounded-lg shadow">
             <p className="text-gray-500">Turnover</p>
             <h2 className="text-2xl font-bold">
-                {overview.turnover ? `${overview.turnover.value} USD` : "Loading..."}
+              {overview.turnover ? `${overview.turnover.value} USD` : "Loading..."}
             </h2>
             <p className="text-green-500 text-sm">
               ▲ {overview.turnover?.change}% period of change
@@ -132,11 +154,11 @@ const [overview, setOverview] = useState({
             <p className="text-green-500 text-sm">
               ▲ {overview.customers?.change}% period of change
             </p>
-  </div>
-</div>
-  
-          {/* Detailed Report Table */}
-          <div className="bg-white p-6 rounded-lg shadow">
+          </div>
+        </div>
+
+        {/* Detailed Report Table */}
+        <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-4">Detailed Report</h3>
           <table className="w-full text-sm text-left">
             <thead>
@@ -158,19 +180,21 @@ const [overview, setOverview] = useState({
                   <td>{user.orderDate}</td>
                   <td>
                     <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        user.status === "New"
+                      className={`px-2 py-1 text-xs rounded-full ${user.status === "New"
                           ? "bg-blue-100 text-blue-600"
                           : user.status === "In-progress"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-green-100 text-green-700"
-                      }`}
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-green-100 text-green-700"
+                        }`}
                     >
                       {user.status}
                     </span>
                   </td>
                   <td>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded">
+                    <button
+                      onClick={() => handleEditClick(user.id)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded"
+                    >
                       Edit
                     </button>
                   </td>
@@ -179,8 +203,52 @@ const [overview, setOverview] = useState({
             </tbody>
           </table>
         </div>
-        </main>
-      </div>
-    );
-  }
-  
+
+        {isModalOpen && selectedUser && (
+          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+              <h2 className="text-lg font-semibold mb-4">Edit User</h2>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium">Name</label>
+                  <input
+                    type="text"
+                    value={selectedUser.name}
+                    readOnly
+                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium">Company</label>
+                  <input
+                    type="text"
+                    value={selectedUser.company}
+                    readOnly
+                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium">Status</label>
+                  <input
+                    type="text"
+                    value={selectedUser.status}
+                    readOnly
+                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end mt-6">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}
