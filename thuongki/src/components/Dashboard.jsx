@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 
 export default function Dashboard() {
 
@@ -116,298 +115,229 @@ export default function Dashboard() {
 
 
   return (
-    <div className="flex min-h-screen bg-gray-100 text-gray-800">
-      {/* Sidebar */}
-      <nav className="space-y-3">
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) =>
-            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
-            }`
-          }
-        >
-          <span className="ml-2">Dashboard</span>
-        </NavLink>
+    <div className="p-8">
+      {/* Top bar */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-pink-600">Dashboard</h1>
+        <div className="flex items-center gap-3">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="px-3 py-1 rounded-md border border-gray-300"
+          />
+          <button>🔔</button>
+          <button>❓</button>
+          <img
+            src="https://i.pravatar.cc/40"
+            alt="avatar"
+            className="w-8 h-8 rounded-full"
+          />
+        </div>
+      </div>
 
-        <NavLink
-          to="/projects"
-          className={({ isActive }) =>
-            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
-            }`
-          }
-        >
-          <span className="ml-2">Projects</span>
-        </NavLink>
+      {/* Overview cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="bg-pink-100 p-5 rounded-lg shadow">
+          <p className="text-gray-500">Turnover</p>
+          <h2 className="text-2xl font-bold">
+            {overview.turnover ? `${overview.turnover.value} USD` : "Loading..."}
+          </h2>
+          <p className="text-green-500 text-sm">
+            ▲ {overview.turnover?.change}% period of change
+          </p>
+        </div>
+        <div className="bg-blue-100 p-5 rounded-lg shadow">
+          <p className="text-gray-500">Profit</p>
+          <h2 className="text-2xl font-bold">
+            {overview.profit ? `${overview.profit.value} USD` : "Loading..."}
+          </h2>
+          <p className="text-green-500 text-sm">
+            ▲ {overview.profit?.change}% period of change
+          </p>
+        </div>
+        <div className="bg-green-100 p-5 rounded-lg shadow">
+          <p className="text-gray-500">New customers</p>
+          <h2 className="text-2xl font-bold">
+            {overview.customers ? `${overview.customers.value}` : "Loading..."}
+          </h2>
+          <p className="text-green-500 text-sm">
+            ▲ {overview.customers?.change}% period of change
+          </p>
+        </div>
+      </div>
 
-        <NavLink
-          to="/teams"
-          className={({ isActive }) =>
-            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
-            }`
-          }
-        >
-          <span className="ml-2">Teams</span>
-        </NavLink>
-
-        <NavLink
-          to="/analytics"
-          className={({ isActive }) =>
-            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
-            }`
-          }
-        >
-          <span className="ml-2">Analytics</span>
-        </NavLink>
-
-        <NavLink
-          to="/messages"
-          className={({ isActive }) =>
-            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
-            }`
-          }
-        >
-          <span className="ml-2">Messages</span>
-        </NavLink>
-
-        <NavLink
-          to="/integrations"
-          className={({ isActive }) =>
-            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
-            }`
-          }
-        >
-          <span className="ml-2">Integrations</span>
-        </NavLink>
-      </nav>
-
-
-      {/* Main Content */}
-      < main className="flex-1 p-8" >
-        {/* Top Bar */}
-        < div className="flex justify-between items-center mb-6" >
-          <h1 className="text-3xl font-bold text-pink-600">Dashboard</h1>
-          <div className="flex items-center space-x-3">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="px-3 py-1 rounded-md border border-gray-300"
-            />
-            <button>🔔</button>
-            <button>❓</button>
-            <img
-              src="https://i.pravatar.cc/40"
-              alt="avatar"
-              className="w-8 h-8 rounded-full"
-            />
-          </div>
-        </div >
-
-        {/* Overview Cards */}
-        < div className="grid grid-cols-3 gap-4 mb-8" >
-          <div className="bg-white p-5 rounded-lg shadow">
-            <p className="text-gray-500">Turnover</p>
-            <h2 className="text-2xl font-bold">
-              {overview.turnover ? `${overview.turnover.value} USD` : "Loading..."}
-            </h2>
-            <p className="text-green-500 text-sm">
-              ▲ {overview.turnover?.change}% period of change
-            </p>
-
-          </div>
-          <div className="bg-white p-5 rounded-lg shadow">
-            <p className="text-gray-500">Profit</p>
-            <h2 className="text-2xl font-bold">
-              {overview.profit ? `${overview.profit.value} USD` : "Loading..."}
-            </h2>
-            <p className="text-green-500 text-sm">
-              ▲ {overview.profit?.change}% period of change
-            </p>
-          </div>
-          <div className="bg-white p-5 rounded-lg shadow">
-            <p className="text-gray-500">New customers</p>
-            <h2 className="text-2xl font-bold">
-              {overview.customers ? `${overview.customers.value}` : "Loading..."}
-            </h2>
-            <p className="text-green-500 text-sm">
-              ▲ {overview.customers?.change}% period of change
-            </p>
-          </div>
-        </div >
-
-        {/* Detailed Report Table */}
-        < div className="bg-white p-6 rounded-lg shadow" >
-          <h3 className="text-lg font-semibold mb-4">Detailed Report</h3>
+      {/* Table */}
+      <div className="bg-white p-6 rounded-lg shadow">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold">Detailed Report</h3>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-green-500 hover:bg-green-600 text-white text-sm px-4 py-2 rounded">
+            className="bg-pink-500 hover:bg-pink-600 text-white text-sm px-4 py-2 rounded"
+          >
             + Add Customer
           </button>
-          <table className="w-full text-sm text-left">
-            <thead>
-              <tr className="text-gray-500 border-b">
-                <th className="py-2">Customer Name</th>
-                <th>Company</th>
-                <th>Order Value</th>
-                <th>Order Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id} className="border-t hover:bg-gray-50">
-                  <td className="py-2">{user.name}</td>
-                  <td>{user.company}</td>
-                  <td>{user.orderValue}</td>
-                  <td>{user.orderDate}</td>
-                  <td>
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${user.status === "New"
+        </div>
+
+        <table className="w-full text-sm text-left">
+          <thead>
+            <tr className="text-gray-500 border-b">
+              <th className="py-2">Customer Name</th>
+              <th>Company</th>
+              <th>Order Value</th>
+              <th>Order Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id} className="border-t hover:bg-gray-50">
+                <td className="py-2">{user.name}</td>
+                <td>{user.company}</td>
+                <td>{user.orderValue}</td>
+                <td>{user.orderDate}</td>
+                <td>
+                  <span
+                    className={`px-2 py-1 text-xs rounded-full ${user.status === "New"
                         ? "bg-blue-100 text-blue-600"
                         : user.status === "In-progress"
                           ? "bg-yellow-100 text-yellow-700"
                           : "bg-green-100 text-green-700"
-                        }`}
-                    >
-                      {user.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleEditClick(user.id)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded"
-                    >
-                      Edit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div >
-
-        {isModalOpen && selectedUser && (
-          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
-              <h2 className="text-lg font-semibold mb-4">Edit User</h2>
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-sm font-medium">Name</label>
-                  <input
-                    type="text"
-                    value={selectedUser.name}
-                    readOnly
-                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium">Company</label>
-                  <input
-                    type="text"
-                    value={selectedUser.company}
-                    readOnly
-                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium">Status</label>
-                  <input
-                    type="text"
-                    value={selectedUser.status}
-                    readOnly
-                    className="w-full px-3 py-2 border rounded-md bg-gray-100"
-                  />
-                </div>
+                      }`}
+                  >
+                    {user.status}
+                  </span>
+                </td>
+                <td>
+                  <button
+                    onClick={() => handleEditClick(user.id)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded"
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        
+      </div>
+      {isModalOpen && selectedUser && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">Edit User</h2>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-sm font-medium">Name</label>
+                <input
+                  type="text"
+                  value={selectedUser.name}
+                  readOnly
+                  className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                />
               </div>
-              <div className="flex justify-end mt-6">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
-                >
-                  Close
-                </button>
+              <div>
+                <label className="block text-sm font-medium">Company</label>
+                <input
+                  type="text"
+                  value={selectedUser.company}
+                  readOnly
+                  className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                />
               </div>
+              <div>
+                <label className="block text-sm font-medium">Status</label>
+                <input
+                  type="text"
+                  value={selectedUser.status}
+                  readOnly
+                  className="w-full px-3 py-2 border rounded-md bg-gray-100"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+              >
+                Close
+              </button>
             </div>
           </div>
-        )
-        }
-        {
-          isAddModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
-                <h2 className="text-lg font-semibold mb-4">Thêm Khách hàng mới</h2>
-                <div className="space-y-3">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Tên"
-                    value={newCustomer.name}
-                    onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                  <input
-                    type="text"
-                    name="image"
-                    placeholder="Ảnh URL"
-                    value={newCustomer.image}
-                    onChange={(e) => setNewCustomer({ ...newCustomer, image: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                  <input
-                    type="text"
-                    name="company"
-                    placeholder="Công ty"
-                    value={newCustomer.company}
-                    onChange={(e) => setNewCustomer({ ...newCustomer, company: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                  <input
-                    type="text"
-                    name="orderValue"
-                    placeholder="Giá trị đơn hàng"
-                    value={newCustomer.orderValue}
-                    onChange={(e) => setNewCustomer({ ...newCustomer, orderValue: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                  <input
-                    type="text"
-                    name="orderDate"
-                    placeholder="Ngày đặt hàng"
-                    value={newCustomer.orderDate}
-                    onChange={(e) => setNewCustomer({ ...newCustomer, orderDate: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  />
-                  <select
-                    value={newCustomer.status}
-                    onChange={(e) => setNewCustomer({ ...newCustomer, status: e.target.value })}
-                    className="w-full px-3 py-2 border rounded-md"
-                  >
-                    <option value="New">New</option>
-                    <option value="In-progress">In-progress</option>
-                    <option value="Completed">Completed</option>
-                  </select>
-                </div>
-                <div className="flex justify-end mt-6 space-x-3">
-                  <button
-                    onClick={() => setIsAddModalOpen(false)}
-                    className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
-                  >
-                    Hủy
-                  </button>
-                  <button
-                    onClick={handleAddCustomer}
-                    className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
-                  >
-                    Lưu
-                  </button>
-                </div>
-              </div>
+        </div>
+      )}
+      {isAddModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">Thêm Khách hàng mới</h2>
+            <div className="space-y-3">
+              <input
+                type="text"
+                name="name"
+                placeholder="Tên"
+                value={newCustomer.name}
+                onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
+                className="w-full px-3 py-2 border rounded-md"
+              />
+              <input
+                type="text"
+                name="image"
+                placeholder="Ảnh URL"
+                value={newCustomer.image}
+                onChange={(e) => setNewCustomer({ ...newCustomer, image: e.target.value })}
+                className="w-full px-3 py-2 border rounded-md"
+              />
+              <input
+                type="text"
+                name="company"
+                placeholder="Công ty"
+                value={newCustomer.company}
+                onChange={(e) => setNewCustomer({ ...newCustomer, company: e.target.value })}
+                className="w-full px-3 py-2 border rounded-md"
+              />
+              <input
+                type="text"
+                name="orderValue"
+                placeholder="Giá trị đơn hàng"
+                value={newCustomer.orderValue}
+                onChange={(e) => setNewCustomer({ ...newCustomer, orderValue: e.target.value })}
+                className="w-full px-3 py-2 border rounded-md"
+              />
+              <input
+                type="text"
+                name="orderDate"
+                placeholder="Ngày đặt hàng"
+                value={newCustomer.orderDate}
+                onChange={(e) => setNewCustomer({ ...newCustomer, orderDate: e.target.value })}
+                className="w-full px-3 py-2 border rounded-md"
+              />
+              <select
+                value={newCustomer.status}
+                onChange={(e) => setNewCustomer({ ...newCustomer, status: e.target.value })}
+                className="w-full px-3 py-2 border rounded-md"
+              >
+                <option value="New">New</option>
+                <option value="In-progress">In-progress</option>
+                <option value="Completed">Completed</option>
+              </select>
             </div>
-          )
-        }
-
-      </main >
+            <div className="flex justify-end mt-6 space-x-3">
+              <button
+                onClick={() => setIsAddModalOpen(false)}
+                className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={handleAddCustomer}
+                className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
+              >
+                Lưu
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div >
   );
 }
