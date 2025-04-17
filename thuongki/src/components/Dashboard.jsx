@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 
 export default function Dashboard() {
 
@@ -119,6 +121,14 @@ export default function Dashboard() {
       {/* Top bar */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-pink-600">Dashboard</h1>
+        <div className="mb-6">
+          <Link
+            to="/project"
+            className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            ➡ Go to Project Page
+          </Link>
+        </div>
         <div className="flex items-center gap-3">
           <input
             type="text"
@@ -199,10 +209,10 @@ export default function Dashboard() {
                 <td>
                   <span
                     className={`px-2 py-1 text-xs rounded-full ${user.status === "New"
-                        ? "bg-blue-100 text-blue-600"
-                        : user.status === "In-progress"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-green-100 text-green-700"
+                      ? "bg-blue-100 text-blue-600"
+                      : user.status === "In-progress"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-green-100 text-green-700"
                       }`}
                   >
                     {user.status}
@@ -220,7 +230,7 @@ export default function Dashboard() {
             ))}
           </tbody>
         </table>
-        
+
       </div>
       {isModalOpen && selectedUser && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
