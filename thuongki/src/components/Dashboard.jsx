@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { NavLink } from "react-router-dom";
 
 export default function Dashboard() {
 
@@ -118,36 +118,74 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-800">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-lg p-4 flex flex-col justify-between">
-        <div>
-          <div className="text-2xl font-bold mb-6 text-pink-600">Logo</div>
-          <nav className="space-y-3">
-            <a href="#" className="flex items-center p-2 rounded-lg bg-pink-100 text-pink-600 font-semibold">
-              <span className="ml-2">Dashboard</span>
-            </a>
-            <a href="#" className="flex items-center p-2 hover:bg-gray-100 rounded-lg">
-              <span className="ml-2">Projects</span>
-            </a>
-            <a href="#" className="flex items-center p-2 hover:bg-gray-100 rounded-lg">
-              <span className="ml-2">Teams</span>
-            </a>
-            <a href="#" className="flex items-center p-2 hover:bg-gray-100 rounded-lg">
-              <span className="ml-2">Analytics</span>
-            </a>
-            <a href="#" className="flex items-center p-2 hover:bg-gray-100 rounded-lg">
-              <span className="ml-2">Messages</span>
-            </a>
-            <a href="#" className="flex items-center p-2 hover:bg-gray-100 rounded-lg">
-              <span className="ml-2">Integrations</span>
-            </a>
-          </nav>
-        </div>
-      </aside>
+      <nav className="space-y-3">
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) =>
+            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
+            }`
+          }
+        >
+          <span className="ml-2">Dashboard</span>
+        </NavLink>
+
+        <NavLink
+          to="/projects"
+          className={({ isActive }) =>
+            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
+            }`
+          }
+        >
+          <span className="ml-2">Projects</span>
+        </NavLink>
+
+        <NavLink
+          to="/teams"
+          className={({ isActive }) =>
+            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
+            }`
+          }
+        >
+          <span className="ml-2">Teams</span>
+        </NavLink>
+
+        <NavLink
+          to="/analytics"
+          className={({ isActive }) =>
+            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
+            }`
+          }
+        >
+          <span className="ml-2">Analytics</span>
+        </NavLink>
+
+        <NavLink
+          to="/messages"
+          className={({ isActive }) =>
+            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
+            }`
+          }
+        >
+          <span className="ml-2">Messages</span>
+        </NavLink>
+
+        <NavLink
+          to="/integrations"
+          className={({ isActive }) =>
+            `flex items-center p-2 rounded-lg font-semibold ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100"
+            }`
+          }
+        >
+          <span className="ml-2">Integrations</span>
+        </NavLink>
+      </nav>
+
 
       {/* Main Content */}
-      <main className="flex-1 p-8">
+      < main className="flex-1 p-8" >
         {/* Top Bar */}
-        <div className="flex justify-between items-center mb-6">
+        < div className="flex justify-between items-center mb-6" >
           <h1 className="text-3xl font-bold text-pink-600">Dashboard</h1>
           <div className="flex items-center space-x-3">
             <input
@@ -163,10 +201,10 @@ export default function Dashboard() {
               className="w-8 h-8 rounded-full"
             />
           </div>
-        </div>
+        </div >
 
         {/* Overview Cards */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        < div className="grid grid-cols-3 gap-4 mb-8" >
           <div className="bg-white p-5 rounded-lg shadow">
             <p className="text-gray-500">Turnover</p>
             <h2 className="text-2xl font-bold">
@@ -195,10 +233,10 @@ export default function Dashboard() {
               ▲ {overview.customers?.change}% period of change
             </p>
           </div>
-        </div>
+        </div >
 
         {/* Detailed Report Table */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        < div className="bg-white p-6 rounded-lg shadow" >
           <h3 className="text-lg font-semibold mb-4">Detailed Report</h3>
           <button
             onClick={() => setIsAddModalOpen(true)}
@@ -247,7 +285,7 @@ export default function Dashboard() {
               ))}
             </tbody>
           </table>
-        </div>
+        </div >
 
         {isModalOpen && selectedUser && (
           <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
@@ -292,81 +330,84 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        )}
-        {isAddModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
-              <h2 className="text-lg font-semibold mb-4">Thêm Khách hàng mới</h2>
-              <div className="space-y-3">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Tên"
-                  value={newCustomer.name}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-                <input
-                  type="text"
-                  name="image"
-                  placeholder="Ảnh URL"
-                  value={newCustomer.image}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, image: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-                <input
-                  type="text"
-                  name="company"
-                  placeholder="Công ty"
-                  value={newCustomer.company}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, company: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-                <input
-                  type="text"
-                  name="orderValue"
-                  placeholder="Giá trị đơn hàng"
-                  value={newCustomer.orderValue}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, orderValue: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-                <input
-                  type="text"
-                  name="orderDate"
-                  placeholder="Ngày đặt hàng"
-                  value={newCustomer.orderDate}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, orderDate: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-                <select
-                  value={newCustomer.status}
-                  onChange={(e) => setNewCustomer({ ...newCustomer, status: e.target.value })}
-                  className="w-full px-3 py-2 border rounded-md"
-                >
-                  <option value="New">New</option>
-                  <option value="In-progress">In-progress</option>
-                  <option value="Completed">Completed</option>
-                </select>
-              </div>
-              <div className="flex justify-end mt-6 space-x-3">
-                <button
-                  onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
-                >
-                  Hủy
-                </button>
-                <button
-                  onClick={handleAddCustomer}
-                  className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
-                >
-                  Lưu
-                </button>
+        )
+        }
+        {
+          isAddModalOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+                <h2 className="text-lg font-semibold mb-4">Thêm Khách hàng mới</h2>
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Tên"
+                    value={newCustomer.name}
+                    onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-md"
+                  />
+                  <input
+                    type="text"
+                    name="image"
+                    placeholder="Ảnh URL"
+                    value={newCustomer.image}
+                    onChange={(e) => setNewCustomer({ ...newCustomer, image: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-md"
+                  />
+                  <input
+                    type="text"
+                    name="company"
+                    placeholder="Công ty"
+                    value={newCustomer.company}
+                    onChange={(e) => setNewCustomer({ ...newCustomer, company: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-md"
+                  />
+                  <input
+                    type="text"
+                    name="orderValue"
+                    placeholder="Giá trị đơn hàng"
+                    value={newCustomer.orderValue}
+                    onChange={(e) => setNewCustomer({ ...newCustomer, orderValue: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-md"
+                  />
+                  <input
+                    type="text"
+                    name="orderDate"
+                    placeholder="Ngày đặt hàng"
+                    value={newCustomer.orderDate}
+                    onChange={(e) => setNewCustomer({ ...newCustomer, orderDate: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-md"
+                  />
+                  <select
+                    value={newCustomer.status}
+                    onChange={(e) => setNewCustomer({ ...newCustomer, status: e.target.value })}
+                    className="w-full px-3 py-2 border rounded-md"
+                  >
+                    <option value="New">New</option>
+                    <option value="In-progress">In-progress</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+                <div className="flex justify-end mt-6 space-x-3">
+                  <button
+                    onClick={() => setIsAddModalOpen(false)}
+                    className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+                  >
+                    Hủy
+                  </button>
+                  <button
+                    onClick={handleAddCustomer}
+                    className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
+                  >
+                    Lưu
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )
+        }
 
-      </main>
-    </div>
+      </main >
+    </div >
   );
 }
