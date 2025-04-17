@@ -9,6 +9,18 @@ export default function Dashboard() {
     customers: null,
   });
 
+
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newCustomer, setNewCustomer] = useState({
+    name: "",
+    image: "",
+    company: "",
+    orderValue: "",
+    orderDate: "",
+    status: "New",
+  });
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -73,6 +85,34 @@ export default function Dashboard() {
     }
   };
 
+  const handleAddCustomer = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...newCustomer,
+          orderValue: `$${newCustomer.orderValue}`,
+        })
+      });
+
+      const savedUser = await res.json();
+      setUsers((prev) => [...prev, savedUser]);
+      setIsAddModalOpen(false);
+      setNewCustomer({
+        name: "",
+        image: "",
+        company: "",
+        orderValue: "",
+        orderDate: "",
+        status: "New",
+      });
+    } catch (err) {
+      console.error("Failed to add user", err);
+    }
+  };
 
 
   return (
@@ -160,6 +200,11 @@ export default function Dashboard() {
         {/* Detailed Report Table */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-4">Detailed Report</h3>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-green-500 hover:bg-green-600 text-white text-sm px-4 py-2 rounded">
+            + Add Customer
+          </button>
           <table className="w-full text-sm text-left">
             <thead>
               <tr className="text-gray-500 border-b">
@@ -181,10 +226,10 @@ export default function Dashboard() {
                   <td>
                     <span
                       className={`px-2 py-1 text-xs rounded-full ${user.status === "New"
-                          ? "bg-blue-100 text-blue-600"
-                          : user.status === "In-progress"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-green-100 text-green-700"
+                        ? "bg-blue-100 text-blue-600"
+                        : user.status === "In-progress"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-green-100 text-green-700"
                         }`}
                     >
                       {user.status}
@@ -248,6 +293,79 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+        {isAddModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+              <h2 className="text-lg font-semibold mb-4">Thêm Khách hàng mới</h2>
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Tên"
+                  value={newCustomer.name}
+                  onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+                <input
+                  type="text"
+                  name="image"
+                  placeholder="Ảnh URL"
+                  value={newCustomer.image}
+                  onChange={(e) => setNewCustomer({ ...newCustomer, image: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+                <input
+                  type="text"
+                  name="company"
+                  placeholder="Công ty"
+                  value={newCustomer.company}
+                  onChange={(e) => setNewCustomer({ ...newCustomer, company: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+                <input
+                  type="text"
+                  name="orderValue"
+                  placeholder="Giá trị đơn hàng"
+                  value={newCustomer.orderValue}
+                  onChange={(e) => setNewCustomer({ ...newCustomer, orderValue: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+                <input
+                  type="text"
+                  name="orderDate"
+                  placeholder="Ngày đặt hàng"
+                  value={newCustomer.orderDate}
+                  onChange={(e) => setNewCustomer({ ...newCustomer, orderDate: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                />
+                <select
+                  value={newCustomer.status}
+                  onChange={(e) => setNewCustomer({ ...newCustomer, status: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
+                >
+                  <option value="New">New</option>
+                  <option value="In-progress">In-progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+              <div className="flex justify-end mt-6 space-x-3">
+                <button
+                  onClick={() => setIsAddModalOpen(false)}
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={handleAddCustomer}
+                  className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
+                >
+                  Lưu
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );
